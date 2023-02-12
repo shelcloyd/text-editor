@@ -28,4 +28,12 @@ export const getDb = async () => {
   return store.getAll();
 };
 
+export const putDb = async (content) => {
+  const db = await initdb();
+  const tx = db.transaction('jate', 'readwrite');
+  const store = tx.objectStore('jate');
+  store.put({ content });
+  return tx.done;
+};
+
 initdb();
