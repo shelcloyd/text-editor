@@ -13,11 +13,12 @@ const initdb = async () =>
   });
 
 // TODO: Add logic to a method that accepts some content and adds it to the database
-export const putDb = async (content) => openDB('jate', 1).then((db) => {
-  const tx = db.transaction('jate', 'readwrite');
-  tx.store.add({ content });
-  return tx.done;
-});
+export const addDb = async (content) =>
+  openDB('jate', 1).then((db) => {
+    const tx = db.transaction('jate', 'readwrite');
+    tx.store.add({ content });
+    return tx.done;
+  });
 
 // TODO: Add logic for a method that gets all the content from the database
 export const getDb = async () => {
