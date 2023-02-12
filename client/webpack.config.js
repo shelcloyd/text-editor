@@ -18,24 +18,29 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
+      // this plugin generates the html file and injects bundles
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'Webpack Plugin'
       }),
 
+      // this plugin injects the custom service worker
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: './src-sw.js',
       }),
 
+      // this plugin creates a manifest.json file
       new WebpackPwaManifest({
-        start_url: './',
-        publicPath: './',
+        fingerprints: false,
+        inject: true,
         name: "Just Another Text Editor",
         short_name: "JATE",
-        description: "Text Editor with offline capabilities using IndexedDB",
+        description: "Text Editor",
         background_color: '#225ca3',
         theme_color: '#225ca3',
+        start_url: './',
+        publicPath: './',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
@@ -43,12 +48,11 @@ module.exports = () => {
             destination: path.join('assets', 'icons'),
           },
         ],
-        fingerprints: false,
-        inject: true,
       }),
     ],
 
     module: {
+      // CSS loaders
       rules: [
         {
           test: /\.css$/i,
@@ -56,9 +60,11 @@ module.exports = () => {
             'style-loader',
             'css-loader'
           ],
-        }, {
+        },
+        {
           test: /\.m?js$/,
           exclude: /node_modules/,
+          // babel-loader is for using ES6
           use: {
             loader: 'babel-loader',
             options: {
