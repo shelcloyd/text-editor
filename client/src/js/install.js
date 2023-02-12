@@ -10,7 +10,13 @@ window.addEventListener('beforeinstallprompt', (event) => {
 });
 
 // TODO: Implement a click event handler on the `butInstall` element
-butInstall.addEventListener('click', async () => {});
+butInstall.addEventListener('click', async () => {
+    self.addEventListener('install', (e) =>
+        e.waitUntil(
+            caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+        )
+    );
+});
 
 // TODO: Add an handler for the `appinstalled` event
-window.addEventListener('appinstalled', (event) => {});
+window.addEventListener('appinstalled', (event) => { });
